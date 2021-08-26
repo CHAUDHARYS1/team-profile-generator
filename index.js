@@ -4,19 +4,76 @@ const generateProfiles = require('./utils/generateProfiles');
 
 const questions = () => {
     return inquirer.prompt([{
-        type: 'input',
-        name: 'mainTitle',
-        message: 'What would you like to name your team?',
-        validate: userInput => {
-            if (userInput) {
-                return true;
-            } else {
-                console.log('Please enter a name!');
-                return false;
+            type: 'input',
+            name: 'mainTitle',
+            message: 'What would you like to name your team?',
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a name!');
+                    return false;
+                }
             }
+        },
+        {
+            type: 'input',
+            name: 'employeeName',
+            message: 'Name of employee',
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a name of the employee!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'employeePosition',
+            message: 'Position of employee',
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a name of the employee!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'employeeService',
+            message: 'How long have they been with the team?'
+        },
+        {
+            type: 'input',
+            name: 'assignedId',
+            message: 'Please enter 5 Digit Employee ID number:'
+        },
+        {
+            type: 'input',
+            name: 'employeeEmail',
+            message: 'Please enter the email address of the employee:'
+        },
+        {
+            type: 'input',
+            name: 'employeePhone',
+            message: 'Please enter the phone number of the employee:'
+        },
+        {
+            type: 'input',
+            name: 'employeeSchool',
+            message: 'Please enter the school of the employee:'
+        },
+        {
+            type: 'input',
+            name: 'employeeGithub',
+            message: 'Please enter the github username of the employee:'
         }
-    }
-]);
+       
+    ]);
 };
 
 
