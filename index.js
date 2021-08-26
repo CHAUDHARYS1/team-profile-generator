@@ -5,9 +5,18 @@ const generateProfiles = require('./utils/generateProfiles');
 const questions = () => {
     return inquirer.prompt([{
         type: 'input',
-        name: 'projectTitle',
-        message: 'What is your project title?'
-    }]);
+        name: 'mainTitle',
+        message: 'What would you like to name your team?',
+        validate: userInput => {
+            if (userInput) {
+                return true;
+            } else {
+                console.log('Please enter a name!');
+                return false;
+            }
+        }
+    }
+]);
 };
 
 
