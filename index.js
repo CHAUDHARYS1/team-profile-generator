@@ -2,6 +2,54 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const generateProfiles = require('./utils/generateProfiles');
 
+const teamLeadQuestions = () => {
+    return inquirer.prompt([{
+            type: 'input',
+            name: 'managerName',
+            message: "Please add manager's name: (required)",
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a name!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'employeeId',
+            message: "Please add manager's employee id: (required)",
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter an employee id number!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'employeeEmail',
+            message: "Please add manager's full email address: (required)",
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter email address!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'officeNumber',
+            message: "Please add manager's office number: (not required)"
+        }
+    ]);
+}
+
 const questions = () => {
     return inquirer.prompt([{
             type: 'input',
@@ -72,7 +120,7 @@ const questions = () => {
             name: 'employeeGithub',
             message: 'Please enter the github username of the employee:'
         }
-       
+
     ]);
 };
 
@@ -91,7 +139,8 @@ function writeToFile(data) {
 
 // TODO: Create a function to initialize app
 function init() {
-    questions().then((data) => {
+    teamLeadQuestions()
+        .then(questions).then((data) => {
         writeToFile(data);
         // console.log(data);
     });
@@ -99,3 +148,23 @@ function init() {
 
 // Function call to initialize app
 init();
+
+
+// promptUser()
+//     .then(promptProject)
+//     .then(portfolioData => {
+//         return generatePage(portfolioData);
+//     })
+//     .then(pageHTML => {
+//         return writeFile(pageHTML);
+//     })
+//     .then(writeFileResponse => {
+//         console.log(writeFileResponse);
+//         return copyFile();
+//     })
+//     .then(copyFileResponse => {
+//         console.log(copyFileResponse);
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     });
