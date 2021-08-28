@@ -25,13 +25,13 @@ function generateProfiles(data) {
                         <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">${data.employeePosition}</time></p>
                     </div>
                     <div class="uk-width-auto">
-                       <p>Length: ${data.employeeService}</p>
+                       <p>Length: ${data.employeeService}+ years</p>
                     </div>
                 </div>
             </div>
             <div class="uk-card-body">
                 <p class="uk-text-bold">ID: <span class="uk-text-normal">${data.assignedId}</span></p>
-                <p class="uk-text-bold">Email: <span class="uk-text-normal">${data.employeeEmail}</span></p>
+                <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${data.employeeEmail}">${data.employeeEmail}</a></span></p>
                 <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${data.employeePhone}</span></p>
                 <p class="uk-text-bold">School: <span class="uk-text-normal">${data.employeeSchool}</span></p>
                 <p class="uk-text-bold">Github: <span class="uk-text-normal"><a href="https://github.com/${data.employeeGithub}">${data.employeeGithub}</a></span></p>
