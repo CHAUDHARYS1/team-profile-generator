@@ -20,12 +20,12 @@ function generateProfiles(data) {
         <div class="uk-card uk-card-default uk-width-1-2@m">
             <div class="uk-card-header">
                 <div class="uk-grid-small uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto">
+                    <div class="uk-width-expand">
                         <h3 class="uk-card-title uk-margin-remove-bottom">${data.employeeName}</h3>
                         <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">${data.employeePosition}</time></p>
                     </div>
-                    <div class="uk-width-expand">
-                       <p>Years in service: ${data.employeeService}</p>
+                    <div class="uk-width-auto">
+                       <p>Length: ${data.employeeService}</p>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@ function generateProfiles(data) {
                 <p class="uk-text-bold">Email: <span class="uk-text-normal">${data.employeeEmail}</span></p>
                 <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${data.employeePhone}</span></p>
                 <p class="uk-text-bold">School: <span class="uk-text-normal">${data.employeeSchool}</span></p>
-                <p class="uk-text-bold">Github: <span class="uk-text-normal">${data.employeeGithub}</span></p>
+                <p class="uk-text-bold">Github: <span class="uk-text-normal"><a href="https://github.com/${data.employeeGithub}">${data.employeeGithub}</a></span></p>
             </div>
         </div>
     </div>
