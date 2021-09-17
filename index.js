@@ -2,8 +2,26 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const generateProfiles = require('./utils/generateProfiles');
 
-const teamLeadQuestions = () => {
-    return inquirer.prompt([{
+// TODO: Global Variables
+let employee = [];
+
+// TODO: Create a function that prompt's for team manager/team lead info
+const promptTeamLeadQuestions = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'teamName',
+            message: 'What would you like to name your team?',
+            validate: userInput => {
+                if (userInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a name!');
+                    return false;
+                }
+            }
+        },
+        {
             type: 'input',
             name: 'managerName',
             message: "Please add manager's name: (required)",
@@ -18,7 +36,7 @@ const teamLeadQuestions = () => {
         },
         {
             type: 'input',
-            name: 'employeeId',
+            name: 'managerEmployeeId',
             message: "Please add manager's employee id: (required)",
             validate: userInput => {
                 if (userInput) {
@@ -31,7 +49,7 @@ const teamLeadQuestions = () => {
         },
         {
             type: 'input',
-            name: 'employeeEmail',
+            name: 'managerEmail',
             message: "Please add manager's full email address: (required)",
             validate: userInput => {
                 if (userInput) {
@@ -44,27 +62,27 @@ const teamLeadQuestions = () => {
         },
         {
             type: 'input',
-            name: 'officeNumber',
+            name: 'managerOfficeNumber',
             message: "Please add manager's office number: (not required)"
+        },
+        {
+            type: 'list',
+            name: 'teamMembers',
+            message: 'Add a team member:',
+            choices: ['Engineer', 'Intern']
         }
     ]);
 }
 
-const questions = () => {
+// TODO: Create a function that prompts user for team name
+// const promptTeamName = () => {
+//     return inquirer.prompt([]);
+
+// }
+
+// TODO: Create a function that prompts user about team memeber that they want to add
+const promptQuestions = () => {
     return inquirer.prompt([{
-            type: 'input',
-            name: 'mainTitle',
-            message: 'What would you like to name your team?',
-            validate: userInput => {
-                if (userInput) {
-                    return true;
-                } else {
-                    console.log('Please enter a name!');
-                    return false;
-                }
-            }
-        },
-        {
             type: 'input',
             name: 'employeeName',
             message: 'Name of employee',
@@ -97,7 +115,7 @@ const questions = () => {
         },
         {
             type: 'input',
-            name: 'assignedId',
+            name: 'employeeId',
             message: 'Please enter 5 Digit Employee ID number:'
         },
         {
@@ -119,52 +137,58 @@ const questions = () => {
             type: 'input',
             name: 'employeeGithub',
             message: 'Please enter the github username of the employee:'
+        },
+        {
+            type: 'confirm',
+            name: 'confirmAddEmployee',
+            message: 'Would you like to enter another team member?',
+            default: false
         }
-
     ]);
 };
 
 
 // TODO: Create a function to write index file
-function writeToFile(data) {
-    fs.writeFile('./dist/index.html', generateProfiles(data), err => {
+function writeToFile(employee) {
+    fs.writeFile('./dist/index.html', generateProfiles(employee), err => {
         if (err) {
             console.log(err);
             return;
         }
         console.log('Page created! Checkout out index.html in this directory to see it!');
-
     });
 };
+// TODO: Crete a function to write another profile based on user's answer to prompt
+function nextProfile() { 
+    promptQuestions().then((anotherProfileData) => {
+        employee.push(anotherProfileData);
+        if (!anotherProfileData.confirmAddEmployee) {
+            console.log("inside while loop", employee);
+            writeToFile(employee);
+        } else{
+            nextProfile();
+        }
+    });
+}
 
 // TODO: Create a function to initialize app
 function init() {
-    teamLeadQuestions()
-        .then(questions).then((data) => {
-        writeToFile(data);
-        // console.log(data);
-    });
+        promptTeamLeadQuestions()
+        .then((data) => {
+            employee.push(data);
+            console.log(data)
+        })
+        .then(promptQuestions)
+        .then((data) => {
+            employee.push(data);
+            console.log(data);
+            if (data.confirmAddEmployee) {
+                nextProfile();
+            }else{
+                writeToFile(employee);
+            };
+        });
 };
 
 // Function call to initialize app
 init();
-
-
-// promptUser()
-//     .then(promptProject)
-//     .then(portfolioData => {
-//         return generatePage(portfolioData);
-//     })
-//     .then(pageHTML => {
-//         return writeFile(pageHTML);
-//     })
-//     .then(writeFileResponse => {
-//         console.log(writeFileResponse);
-//         return copyFile();
-//     })
-//     .then(copyFileResponse => {
-//         console.log(copyFileResponse);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
