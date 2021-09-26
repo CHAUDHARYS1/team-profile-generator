@@ -2,6 +2,12 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const generateProfiles = require('./utils/generateProfiles');
 
+// import all classes
+const Employee = require('./lib/Employee');
+const Engineer = require('./lib/Engineer')
+const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
+
 // TODO: Global Variables
 let employee = [];
 
@@ -96,17 +102,10 @@ const promptQuestions = () => {
             }
         },
         {
-            type: 'input',
+            type: 'list',
             name: 'employeePosition',
             message: 'Position of employee',
-            validate: userInput => {
-                if (userInput) {
-                    return true;
-                } else {
-                    console.log('Please enter a name of the employee!');
-                    return false;
-                }
-            }
+            choices: ['Engineer', 'Intern']
         },
         {
             type: 'input',
@@ -161,7 +160,12 @@ function writeToFile(employee) {
 // TODO: Crete a function to write another profile based on user's answer to prompt
 function nextProfile() { 
     promptQuestions().then((anotherProfileData) => {
-        employee.push(anotherProfileData);
+        console.log(anotherProfileData);
+        if (anotherProfileData.employeePosition === 'Engineer') {
+            employee.push(new Engineer(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeGithub));    
+        } else if(anotherProfileData.employeePosition ==='Intern') {
+            employee.push(new Intern(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeSchool))
+        }
         if (!anotherProfileData.confirmAddEmployee) {
             console.log("inside while loop", employee);
             writeToFile(employee);
@@ -175,12 +179,16 @@ function nextProfile() {
 function init() {
         promptTeamLeadQuestions()
         .then((data) => {
-            employee.push(data);
+            employee.push(new Manager(data.managerName, data.managerEmployeeId, data.managerEmail, data.managerOfficeNumber));
             console.log(data)
         })
         .then(promptQuestions)
         .then((data) => {
-            employee.push(data);
+            if (data.employeePosition === 'Engineer') {
+                employee.push(new Engineer(data.employeeName, data.employeeId, data.employeeEmail, data.employeeGithub));    
+            } else if(data.employeePosition ==='Intern') {
+                employee.push(new Intern(data.employeeName, data.employeeId, data.employeeEmail, data.employeeSchool))
+            }
             console.log(data);
             if (data.confirmAddEmployee) {
                 nextProfile();

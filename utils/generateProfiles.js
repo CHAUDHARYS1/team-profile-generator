@@ -23,7 +23,7 @@ function employeeCard(employee) {
                <p class="uk-text-bold">Github: <span class="uk-text-normal"><a href="https://github.com/${employee[i].employeeGithub} target="_blank:">${employee[i].employeeGithub}</a></span></p>
            </div>
        </div>
-    </div>`
+        </div>`
 
     }
     console.log(cardContainer);
@@ -57,15 +57,15 @@ function generateProfiles(employee) {
                         <div class="uk-card-header">
                             <div class="uk-grid-small uk-flex-middle" uk-grid>
                                 <div class="uk-width-expand">
-                                    <h3 class="uk-card-title uk-margin-remove-bottom">${employee[0].managerName}</h3>
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">${employee[0].getName()}</h3>
                                     <p class="uk-text-meta uk-margin-remove-top">Team Manager</p>
                                 </div>
                             </div>
                         </div>
                         <div class="uk-card-body">
-                            <p class="uk-text-bold">ID: <span class="uk-text-normal">${employee[0].managerEmployeeId}</span></p>
-                            <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${employee[0].managerEmail}">${employee[0].managerEmail}</a></span></p>
-                            <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${employee[0].managerOfficeNumber}</span></p>
+                            <p class="uk-text-bold">ID: <span class="uk-text-normal">${employee[0].getId()}</span></p>
+                            <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${employee[0].getEmail()}">${employee[0].getEmail()}</a></span></p>
+                            <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${employee[0].getOfficeNumber()}</span></p>
                         </div>
                     </div>
                 </div>
