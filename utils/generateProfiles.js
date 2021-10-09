@@ -7,20 +7,17 @@ function employeeCard(employee) {
            <div class="uk-card-header">
                <div class="uk-grid-small uk-flex-middle" uk-grid>
                    <div class="uk-width-expand">
-                       <h3 class="uk-card-title uk-margin-remove-bottom">${employee[i].employeeName}</h3>
-                       <p class="uk-text-meta uk-margin-remove-top">${employee[i].employeePosition}</p>
+                       <h3 class="uk-card-title uk-margin-remove-bottom">${employee[i].getName()}</h3>
+                       <p class="uk-text-meta uk-margin-remove-top">${employee[i].getRole()}</p>
                    </div>
-                   <div class="uk-width-auto">
-                       <div class="uk-card-badge uk-label">Length: ${employee[i].employeeService}+ yrs</div>
-                   </div>
+                  
                </div>
            </div>
            <div class="uk-card-body">
-               <p class="uk-text-bold">ID: <span class="uk-text-normal">${employee[i].employeeId}</span></p>
-               <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${employee[i].employeeEmail}">${employee[i].employeeEmail}</a></span></p>
-               <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${employee[i].employeePhone}</span></p>
-               <p class="uk-text-bold">School: <span class="uk-text-normal">${employee[i].employeeSchool}</span></p>
-               <p class="uk-text-bold">Github: <span class="uk-text-normal"><a href="https://github.com/${employee[i].employeeGithub} target="_blank:">${employee[i].employeeGithub}</a></span></p>
+               <p class="uk-text-bold">ID: <span class="uk-text-normal">${employee[i].getId()}</span></p>
+               <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${employee[i].getEmail()}">${employee[i].getEmail()}</a></span></p>
+                ${employee[i].getGithub() ?  `<p class="uk-text-bold">Github: <span class="uk-text-normal">${employee[i].getGithub()}</span></p>` : ''}
+                ${employee[i].getSchool() ?  `<p class="uk-text-bold">School: <span class="uk-text-normal">${employee[i].getSchool()}</span></p>` : ''}
            </div>
        </div>
         </div>`
@@ -32,7 +29,8 @@ function employeeCard(employee) {
 
 
 // TODO: Create a function to generate index.html
-function generateProfiles(employee) {
+function generateProfiles(employee, team) {
+
     return `
     <html lang="en">
     <head>
@@ -46,14 +44,15 @@ function generateProfiles(employee) {
     </head>
     <body>
         <div class="uk-container uk-background-primary uk-padding">
-            <h1 class="uk-heading-medium uk-text-lead uk-text-center uk-text-white">${employee[0].teamName}</h1>
+            <h1 class="uk-heading-medium" style="color:white;">${team[0].getTeamName()}</h1> 
+            <p style="color:white;">${team[0].getTeamDesc()}</p> 
         </div>
         <br>
 
         <div class="uk-container">
             <div class="uk-child-width-1-3 uk-grid">
                 <div>
-                    <div class="uk-card uk-card-primary uk-card-hover">
+                    <div class="uk-card uk-card-default uk-card-hover">
                         <div class="uk-card-header">
                             <div class="uk-grid-small uk-flex-middle" uk-grid>
                                 <div class="uk-width-expand">
@@ -65,7 +64,7 @@ function generateProfiles(employee) {
                         <div class="uk-card-body">
                             <p class="uk-text-bold">ID: <span class="uk-text-normal">${employee[0].getId()}</span></p>
                             <p class="uk-text-bold">Email: <span class="uk-text-normal"><a href="mailto:${employee[0].getEmail()}">${employee[0].getEmail()}</a></span></p>
-                            <p class="uk-text-bold">Phone Number: <span class="uk-text-normal">${employee[0].getOfficeNumber()}</span></p>
+                            <p class="uk-text-bold">Office Number: <span class="uk-text-normal">${employee[0].getOfficeNumber()}</span></p>
                         </div>
                     </div>
                 </div>
@@ -74,6 +73,21 @@ function generateProfiles(employee) {
 
             </div>
         </div>
+
+        <footer class="uk-container uk-position-relative">
+        <div class="uk-flex">
+            <div class="uk-margin-left footer-content">
+                <p>Built with love by Shital Chaudhary | 2021</p>
+            </div>
+            <div class="uk-margin-left footer-content">
+                <p><a href="https://github.com/CHAUDHARYS1/team-profile-generator" target="_blank"></span><u>See code in
+                            GitHub</u></a> <span uk-icon="github"></span></p>
+            </div>
+            <div class="uk-margin-left footer-content">
+                <p>Team Profile Generator Web App <span uk-icon="happy"></span></p> </span>
+            </div>
+        </div>
+    </footer>
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit-icons.min.js"></script>

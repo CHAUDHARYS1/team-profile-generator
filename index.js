@@ -3,16 +3,18 @@ const inquirer = require('inquirer');
 const generateProfiles = require('./utils/generateProfiles');
 
 // import all classes
+const Team = require('./lib/Team');
 const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 // TODO: Global Variables
+let team = [];
 let employee = [];
 
-// TODO: Create a function that prompt's for team manager/team lead info
-const promptTeamLeadQuestions = () => {
+// TODO: Create a function that prompts for team info
+const teamInfo = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -22,11 +24,23 @@ const promptTeamLeadQuestions = () => {
                 if (userInput) {
                     return true;
                 } else {
-                    console.log('Please enter a name!');
+                    console.log('Please enter a team name!');
                     return false;
                 }
             }
         },
+        {
+            type: 'input',
+            name: 'teamDescription',
+            message: "Please add breif description about you team:",
+        
+        }
+]);
+};
+
+// TODO: Create a function that prompt's for team manager/team lead info
+const promptTeamLeadQuestions = () => {
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'managerName',
@@ -80,12 +94,6 @@ const promptTeamLeadQuestions = () => {
     ]);
 }
 
-// TODO: Create a function that prompts user for team name
-// const promptTeamName = () => {
-//     return inquirer.prompt([]);
-
-// }
-
 // TODO: Create a function that prompts user about team memeber that they want to add
 const promptQuestions = () => {
     return inquirer.prompt([{
@@ -109,11 +117,6 @@ const promptQuestions = () => {
         },
         {
             type: 'input',
-            name: 'employeeService',
-            message: 'How long have they been with the team?'
-        },
-        {
-            type: 'input',
             name: 'employeeId',
             message: 'Please enter 5 Digit Employee ID number:'
         },
@@ -121,11 +124,6 @@ const promptQuestions = () => {
             type: 'input',
             name: 'employeeEmail',
             message: 'Please enter the email address of the employee:'
-        },
-        {
-            type: 'input',
-            name: 'employeePhone',
-            message: 'Please enter the phone number of the employee:'
         },
         {
             type: 'input',
@@ -148,8 +146,10 @@ const promptQuestions = () => {
 
 
 // TODO: Create a function to write index file
-function writeToFile(employee) {
-    fs.writeFile('./dist/index.html', generateProfiles(employee), err => {
+function writeToFile(employee, team) {
+    fs.writeFile('./dist/index.html', generateProfiles(employee, team), err => {
+        
+        console.log(team);
         if (err) {
             console.log(err);
             return;
@@ -164,11 +164,11 @@ function nextProfile() {
         if (anotherProfileData.employeePosition === 'Engineer') {
             employee.push(new Engineer(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeGithub));    
         } else if(anotherProfileData.employeePosition ==='Intern') {
-            employee.push(new Intern(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeSchool))
+            employee.push(new Intern(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeSchool, anotherProfileData.employeeGithub))
         }
         if (!anotherProfileData.confirmAddEmployee) {
             console.log("inside while loop", employee);
-            writeToFile(employee);
+            writeToFile(employee, team);
         } else{
             nextProfile();
         }
@@ -177,7 +177,12 @@ function nextProfile() {
 
 // TODO: Create a function to initialize app
 function init() {
-        promptTeamLeadQuestions()
+        teamInfo()
+        .then((data => {
+            team.push(new Team(data.teamName, data.teamDescription));
+            console.log('Hi' + data.teamName)
+        }))
+        .then(promptTeamLeadQuestions)
         .then((data) => {
             employee.push(new Manager(data.managerName, data.managerEmployeeId, data.managerEmail, data.managerOfficeNumber));
             console.log(data)
@@ -187,13 +192,13 @@ function init() {
             if (data.employeePosition === 'Engineer') {
                 employee.push(new Engineer(data.employeeName, data.employeeId, data.employeeEmail, data.employeeGithub));    
             } else if(data.employeePosition ==='Intern') {
-                employee.push(new Intern(data.employeeName, data.employeeId, data.employeeEmail, data.employeeSchool))
+                employee.push(new Intern(data.employeeName, data.employeeId, data.employeeEmail, data.employeeSchool, data.employeeGithub))
             }
             console.log(data);
             if (data.confirmAddEmployee) {
                 nextProfile();
             }else{
-                writeToFile(employee);
+                writeToFile(employee, team);
             };
         });
 };
