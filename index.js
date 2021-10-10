@@ -149,7 +149,6 @@ const promptQuestions = () => {
 function writeToFile(employee, team) {
     fs.writeFile('./dist/index.html', generateProfiles(employee, team), err => {
         
-        console.log(team);
         if (err) {
             console.log(err);
             return;
@@ -160,14 +159,12 @@ function writeToFile(employee, team) {
 // TODO: Crete a function to write another profile based on user's answer to prompt
 function nextProfile() { 
     promptQuestions().then((anotherProfileData) => {
-        console.log(anotherProfileData);
         if (anotherProfileData.employeePosition === 'Engineer') {
             employee.push(new Engineer(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeGithub));    
         } else if(anotherProfileData.employeePosition ==='Intern') {
             employee.push(new Intern(anotherProfileData.employeeName, anotherProfileData.employeeId, anotherProfileData.employeeEmail, anotherProfileData.employeeSchool, anotherProfileData.employeeGithub))
         }
         if (!anotherProfileData.confirmAddEmployee) {
-            console.log("inside while loop", employee);
             writeToFile(employee, team);
         } else{
             nextProfile();
@@ -180,12 +177,10 @@ function init() {
         teamInfo()
         .then((data => {
             team.push(new Team(data.teamName, data.teamDescription));
-            console.log('Hi' + data.teamName)
         }))
         .then(promptTeamLeadQuestions)
         .then((data) => {
             employee.push(new Manager(data.managerName, data.managerEmployeeId, data.managerEmail, data.managerOfficeNumber));
-            console.log(data)
         })
         .then(promptQuestions)
         .then((data) => {
@@ -194,7 +189,6 @@ function init() {
             } else if(data.employeePosition ==='Intern') {
                 employee.push(new Intern(data.employeeName, data.employeeId, data.employeeEmail, data.employeeSchool, data.employeeGithub))
             }
-            console.log(data);
             if (data.confirmAddEmployee) {
                 nextProfile();
             }else{

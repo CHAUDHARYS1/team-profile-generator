@@ -23,7 +23,6 @@ function employeeCard(employee) {
         </div>`
 
     }
-    console.log(cardContainer);
     return cardContainer;
 }
 
