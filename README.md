@@ -1,5 +1,3 @@
-# Team Profile Generator
-
 <!-- PROJECT LOGO  -->
 <br />
 <p align="center">
